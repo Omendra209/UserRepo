@@ -1,0 +1,40 @@
+# .NET build output
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# ASP.NET Core
+appsettings.Development.json
+appsettings.Production.json
+appsettings.json
+project.lock.json
+project.fragment.lock.json
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files (build output)
+*.exe
+*.dll
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# JetBrains Rider
+.idea/
+
+# MacOS
+.DS_Store
+
+# Linux
+.idea/
