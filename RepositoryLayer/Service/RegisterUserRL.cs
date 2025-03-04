@@ -23,13 +23,17 @@ namespace RepositoryLayer.Service
             {
                 if(await _context.Users.AnyAsync(u=> u.Email == user.Email))
                 {
-                    Log.Warn("Registration Failed: Email {0} already exists for user with Name: {1}",user.Email,user.Name);
+                    Log.Warn("Registration Failed: Email {0} already exists for user with Name: {1}",user.Email,user.FirstName);
                     return false;
                 }
                 _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 Log.Info("User with Email: {0} registered successfully",user.Email);
                 return true;
+
+                //var existingUser = _context.Users.FirstOrDefault<UserEntity>(e=> e.Email == user.Email);
+                    
+                
             }
             catch (Exception ex)
             {

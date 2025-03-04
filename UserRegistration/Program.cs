@@ -2,35 +2,53 @@ using BusinessLayer.Service;
 using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Context;
 using RepositoryLayer.Service;
-var builder = WebApplication.CreateBuilder(args);
+using NLog;
+using NLog.Web;
+//add logger
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+try
+{
+    logger.Info("Starting application....");
 
-// Add services to the container.
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddScoped<RegisterUserBL>(); // adding dependency injection so objects can be created
-// registering this as a service
-builder.Services.AddScoped<RegisterUserRL>();
+    // Add services to the container.
 
-// database Service
-var connectionString = builder.Configuration.GetConnectionString("SqlConnection");
-builder.Services.AddDbContext<UserRegistrationAppContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddControllers();
+    builder.Services.AddScoped<RegisterUserBL>(); 
+    builder.Services.AddScoped<RegisterUserRL>();
 
-//add Swagger to container
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    // database Service
+    var connectionString = builder.Configuration.GetConnectionString("SqlConnection");
+    builder.Services.AddDbContext<UserRegistrationAppContext>(options => options.UseSqlServer(connectionString));
 
-var app = builder.Build();
+    //add Swagger to container
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 
-//use swagger
-app.UseSwagger();
-app.UseSwaggerUI();
+    var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+    //use swagger
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+    // Configure the HTTP request pipeline.
 
-app.UseAuthorization();
+    app.UseHttpsRedirection();
 
-app.MapControllers();
+    app.UseAuthorization();
 
-app.Run();
+    app.MapControllers();
+
+    app.Run();
+
+}
+catch (Exception ex)
+{
+    logger.Error(ex, "Application startup failed");
+	throw;
+}
+finally
+{
+    NLog.LogManager.Shutdown();
+}

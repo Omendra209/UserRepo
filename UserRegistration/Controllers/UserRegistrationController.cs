@@ -23,6 +23,7 @@ namespace UserRegistration.Controllers
         {
             try
             {
+                Log.Info("Get a Register User Request");
                 var result = await _registerHelloBL.Registration(user);
                 return Ok(new ResponseModel<string> { Success = true,Message = result});
             }
@@ -34,14 +35,15 @@ namespace UserRegistration.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginUser([FromBody] UserEntity user)
+        public async Task<IActionResult> LoginUser([FromBody] LoginDTO user)
         {
             try
             {
+                Log.Info("Get a Login User Request");
                 bool isAuthenticated = await _registerHelloBL.LoginUser(user.Email,user.Password);
                 if (isAuthenticated)
                 {
-                    return Ok(new ResponseModel<string> { Success=true,Message=user.Name+" Login Successfully.",Data=user.Name});
+                    return Ok(new ResponseModel<string> { Success=true,Message=" Login Successfully.",Data=user.Email});
                 }
                 return Unauthorized(new ResponseModel<string> { Success=false,Message="Invalid Credentials"});
             }

@@ -25,7 +25,7 @@ namespace BusinessLayer.Service
             }
             catch (Exception ex)
             {
-                Log.Error(ex,"Error in Registration");
+                Log.Error(ex, "Error in Repository_RegisterUserBL_Registration");
                 throw;
             }
         }

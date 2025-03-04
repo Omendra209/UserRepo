@@ -13,7 +13,10 @@ namespace RepositoryLayer.Entity
         public int UserId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
 
         [Required]
         public string Email { get; set; }
